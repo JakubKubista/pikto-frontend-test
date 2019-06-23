@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    images: []
+    images: [],
+    canvas: []
   },
   actions: {
     /**
@@ -17,6 +18,26 @@ export default new Vuex.Store({
       commit
     }, images) {
       commit('updateImages', images)
+    },
+    /**
+     * Send async canvas to mutation.
+     * @param {any} state
+     * @param {object} element
+     */
+    addToCanvas ({
+      commit
+    }, element) {
+      commit('addToCanvas', element)
+    },
+    /**
+     * Send async canvas to mutation.
+     * @param {any} state
+     * @param {number} index
+     */
+    removeFromCanvas ({
+      commit
+    }, index) {
+      commit('removeFromCanvas', index)
     }
   },
   mutations: {
@@ -27,6 +48,25 @@ export default new Vuex.Store({
      */
     updateImages (state, images) {
       state.images = [...images]
+    },
+    /**
+     * Add element into canvas store.
+     * @param {any} state
+     * @param {object} element
+     */
+    addToCanvas (state, element) {
+      state.canvas.push({
+        index: element.index,
+        content: element.content
+      })
+    },
+    /**
+     * Remove element from canvas store.
+     * @param {any} state
+     * @param {number} index
+     */
+    removeFromCanvas (state, index) {
+      state.canvas = state.canvas.filter(item => item.index !== index)
     }
   }
 })

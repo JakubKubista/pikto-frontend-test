@@ -17,13 +17,16 @@
       <div class="text">
         <h4>Text</h4>
         <button id="addText"
-                class="btn btn-primary">Add Text</button>
+                class="btn btn-primary"
+                @click="addTextToCanvas()">Add Text</button>
       </div>
       <div class="image">
         <h4>Images</h4>
         <ul class="list-unstyled">
           <li v-for="(image, index) in images"
-              :key="index">
+              :key="index"
+              class="pointer"
+              @click="addImageToCanvas(index, $event)">
             <img :src="image"
                  class="img-rounded" />
           </li>
@@ -34,7 +37,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapActions } from "vuex";
 
 import Api from "@/config/api";
 
@@ -42,14 +45,20 @@ export default {
   name: "SidePane",
   data() {
     return {
-      file: null
+      file: null,
+      textIndex: -1
     };
   },
   computed: {
     ...mapState(["images"])
   },
   methods: {
-    ...mapMutations(["updateImages"]),
+    ...mapActions(["updateImages", "addToCanvas"]),
+    getImages() {
+      Api.callService({ method: "get", service: "images" }).then(response => {
+        this.updateImages(response.data);
+      });
+    },
     changeFile(event) {
       this.file = event.target.files[0];
     },
@@ -62,10 +71,13 @@ export default {
         this.getImages();
       });
     },
-    getImages() {
-      Api.callService({ method: "get", service: "images" }).then(response => {
-        this.updateImages(response.data);
-      });
+    addTextToCanvas() {
+      let content = prompt("Please add text", "Example");
+      this.addToCanvas({ index: this.textIndex, content });
+      this.textIndex--;
+    },
+    addImageToCanvas(index, event) {
+      this.addToCanvas({ index, content: event.target.src });
     }
   },
   mounted() {
