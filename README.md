@@ -5,7 +5,7 @@ Assignment about Javascript Frontend Developer position for Piktochart company. 
 
 ## About company
 
-• Assignment repository: https://github.com/JakubKubista/candidate-tester
+• Assignment repository: https://github.com/JakubKubista/pikto-create-editor
 
 • Location: Amsterdam, NL
 
