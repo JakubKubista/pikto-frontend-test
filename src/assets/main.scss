@@ -1,9 +1,4 @@
-
-/**
-* Main architecture of .scss files is get from  https://sass-guidelin.es/#architecture
-* Another source: https://scotch.io/tutorials/aesthetic-sass-1-architecture-and-style-organization
-*/
 #app {
-  @import 'layout/bootstrap';
+  @import'~bootstrap/dist/css/bootstrap.css';
   @import 'layout/base';
 }

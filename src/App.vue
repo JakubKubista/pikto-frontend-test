@@ -1,21 +1,25 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="row vh-100">
+      <SidePane />
+      <Canvas />
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import SidePane from "./components/SidePane.vue";
+import Canvas from "./components/Canvas.vue";
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
-    HelloWorld
+    SidePane,
+    Canvas
   }
-}
+};
 </script>
 
 <style lang="scss">
-@import "@/assets/styles/main.scss";
+@import "@/assets/main.scss";
 </style>
