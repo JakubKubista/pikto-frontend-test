@@ -1,37 +1,44 @@
-# pikto-frontend-test
+# Piktochart Frontend Test
+Assignment about Javascript Frontend Developer position for Piktochart company. Single page application that allows user to add text and image into canvas.
 
-## Project setup
-```
+---
+
+## About company
+
+• Assignment repository: https://github.com/JakubKubista/candidate-tester
+
+• Location: Amsterdam, NL
+
+• Interviewer: Shen Dee Quah
+
+## Settings
+
+• Includes Babel, Vuex, CSS Pre-processors (Sass/SCSS with node-sass), Linter / Formater (ESLint + Standard config), Unit Testing (Mocha + Chai), E2E Testing (Cypress) and Use config files.
+
+## Install & Run
+
+• [Node JS](https://nodejs.org/en/), [Vue / Vue-CLI](https://vuejs.org/v2/guide/installation.html), [browsers extensions](https://github.com/vuejs/vue-devtools#vue-devtools).
+
+```bash
+# Project dependencies
 npm install
-```
 
-### Compiles and hot-reloads for development
-```
+# Compiles and hot-reloads for development
 npm run serve
-```
 
-### Compiles and minifies for production
-```
+# Compiles and minifies for production
 npm run build
-```
 
-### Run your tests
-```
+# Run all tests
 npm run test
-```
 
-### Lints and fixes files
-```
+# Lints and fixes files
 npm run lint
-```
 
-### Run your end-to-end tests
-```
+# Run end-to-end tests
 npm run test:e2e
-```
 
-### Run your unit tests
-```
+# Run unit tests
 npm run test:unit
 ```
 
