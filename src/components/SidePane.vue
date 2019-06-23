@@ -5,10 +5,11 @@
       <input type="file"
              class="form-control"
              placeholder="Upload Your Images"
-             name="upload">
+             name="upload"
+             @change="changeFile($event)">
       <button id="submit"
-              class="btn btn-primary">upload</button>
-      <!-- Upload Form here -->
+              class="btn btn-primary"
+              @click="uploadFile">Upload</button>
     </div>
     <hr />
     <div class="assets">
@@ -39,18 +40,35 @@ import Api from "@/config/api";
 
 export default {
   name: "SidePane",
+  data() {
+    return {
+      file: null
+    };
+  },
   computed: {
     ...mapState(["images"])
   },
   methods: {
     ...mapMutations(["updateImages"]),
+    changeFile(event) {
+      this.file = event.target.files[0];
+    },
+    uploadFile() {
+      Api.callService({
+        method: "post",
+        service: "uploads",
+        file: this.file
+      }).then(response => {
+        this.getImages();
+      });
+    },
     getImages() {
       Api.callService({ method: "get", service: "images" }).then(response => {
         this.updateImages(response.data);
       });
     }
   },
-  beforeMount() {
+  mounted() {
     this.getImages();
   }
 };

@@ -29,11 +29,20 @@ export default {
    * @return {string} Axios request by service url
    */
   useMethod(input) {
-    return {
-      'get': Axios.get(this.setUrl(input), {
-        params: input.parameters
-      })
-    };
+    let result = null;
+    switch (input.method) {
+      case 'get':
+        result = Axios.get(this.setUrl(input))
+        break;
+      case 'post':
+        const data = new FormData();
+        data.append('file', input.file);
+        result = Axios.post(this.setUrl(input), data)
+        break;
+      default:
+        result = 'Axios method is not allowed'
+    }
+    return result;
   },
 
   /**
@@ -44,7 +53,7 @@ export default {
    */
   async callService(input) {
     try {
-      return await this.useMethod(input)[input.method];
+      return await this.useMethod(input);
     } catch (error) {
       // error handler
       return null;
