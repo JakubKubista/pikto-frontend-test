@@ -21,8 +21,11 @@
       <div class="image">
         <h4>Images</h4>
         <ul class="list-unstyled">
-          <!-- List of images here -->
-          <!-- <li><img src="images/sample.jpeg" class="img-rounded" /></li> -->
+          <li v-for="(image, index) in images"
+              :key="index">
+            <img :src="image"
+                 class="img-rounded" />
+          </li>
         </ul>
       </div>
     </div>
@@ -30,7 +33,25 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
+
+import Api from "@/config/api";
+
 export default {
-  name: "SidePane"
+  name: "SidePane",
+  computed: {
+    ...mapState(["images"])
+  },
+  methods: {
+    ...mapMutations(["updateImages"]),
+    getImages() {
+      Api.callService({ method: "get", service: "images" }).then(response => {
+        this.updateImages(response.data);
+      });
+    }
+  },
+  beforeMount() {
+    this.getImages();
+  }
 };
 </script>
