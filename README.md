@@ -43,4 +43,7 @@ npm run test:unit
 ```
 
 ### Customize configuration
+
+CORS are enabled via plugin [Chrome](https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=cs), [Firefox](https://addons.mozilla.org/cs/firefox/addon/cors-everywhere/?src=search).
+
 See [Configuration Reference](https://cli.vuejs.org/config/).
