@@ -29,7 +29,6 @@ export default {
    * @param {object} element
    */
   setNewElementPosition (element) {
-    element.content.style.cursor = 'grabbing'
     element.content.style.top =
       element.content.offsetTop - element.positions.v2 + 'px'
     element.content.style.left =

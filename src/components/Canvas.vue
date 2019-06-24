@@ -1,15 +1,16 @@
 <template>
   <div class="canvas col-md-auto">
     <div class="block">
-      {{canvas}}
       <div class="row">
         <div v-for="(element, index) in canvas"
              :key="index"
              @mouseover="dragElement(element.index, $event)"
              class="grab">
           <img v-if="element.index > -1"
-               :src="element.src" />
-          <div v-else>
+               :src="element.src"
+               class="canvas-element" />
+          <div v-else
+               class="canvas-element">
             <h4>
               {{ element.text }}
             </h4>
@@ -43,8 +44,6 @@ export default {
     dragElement(index, event) {
       this.setCanvasElementContent(event.target);
       this.setLastElement();
-      this.last.content.style.position = "absolute";
-      this.last.content.style.cursor = "grab";
       this.last.content.onmousedown = this.dragMouseDown;
     },
     dragMouseDown(e) {
@@ -60,6 +59,7 @@ export default {
     elementDrag(e) {
       e = e || window.event;
       e.preventDefault();
+      this.last.content.style.cursor = 'grabbing'
       this.last = Canvas.getNewCursorPosition(this.last, e);
       this.last = Canvas.setNewElementPosition(this.last);
       if (Canvas.checkCanvasEdges(this.last.content))
