@@ -55,6 +55,11 @@ img {
   cursor: pointer;
 }
 
+.grab {
+  cursor: -webkit-grab;
+  cursor: grab;
+}
+
 #assetText {
   font-size: 24px;
 }
