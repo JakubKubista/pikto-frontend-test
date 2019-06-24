@@ -10,7 +10,7 @@
           <img v-if="element.index > -1"
                :src="element.src" />
           <div v-else>
-            <h4 class="noselect">
+            <h4>
               {{ element.text }}
             </h4>
           </div>
@@ -22,6 +22,8 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+
+import Canvas from "@/config/canvas";
 
 export default {
   name: "Canvas",
@@ -39,8 +41,8 @@ export default {
       this.last = this.canvas[this.canvas.length - 1];
     },
     dragElement(index, event) {
-      this.setLastElement();
       this.setCanvasElementContent(event.target);
+      this.setLastElement();
       this.last.content.style.position = "absolute";
       this.last.content.style.cursor = "grab";
       this.last.content.onmousedown = this.dragMouseDown;
@@ -58,25 +60,10 @@ export default {
     elementDrag(e) {
       e = e || window.event;
       e.preventDefault();
-      // calculate the new cursor position:
-      this.last.positions.v1 = this.last.positions.v3 - e.clientX;
-      this.last.positions.v2 = this.last.positions.v4 - e.clientY;
-      this.last.positions.v3 = e.clientX;
-      this.last.positions.v4 = e.clientY;
-      // set the element's new position:
-      this.last.content.style.cursor = "grabbing";
-      this.last.content.style.top =
-        this.last.content.offsetTop - this.last.positions.v2 + "px";
-      this.last.content.style.left =
-        this.last.content.offsetLeft - this.last.positions.v1 + "px";
-      if (
-        parseInt(this.last.content.style.left, 10) < -10 ||
-        parseInt(this.last.content.style.left, 10) > 600 ||
-        (parseInt(this.last.content.style.top, 10) < -10 ||
-          parseInt(this.last.content.style.top, 10) > 600)
-      ) {
+      this.last = Canvas.getNewCursorPosition(this.last, e);
+      this.last = Canvas.setNewElementPosition(this.last);
+      if (Canvas.checkCanvasEdges(this.last.content))
         this.removeFromCanvas(this.last.index);
-      }
     },
     closeDragElement() {
       // stop moving when mouse button is released:
