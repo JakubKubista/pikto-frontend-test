@@ -26,14 +26,8 @@ export default {
   name: "Canvas",
   data() {
     return {
-      index: null,
-      element: null,
-      positions: {
-        v1: 0,
-        v2: 0,
-        v3: 0,
-        v4: 0
-      }
+      last: null,
+      elements: []
     };
   },
   computed: {
@@ -41,19 +35,32 @@ export default {
   },
   methods: {
     ...mapActions(["removeFromCanvas"]),
+    setLastElement() {
+      this.last = this.elements[this.elements.length - 1];
+    },
     dragElement(index, event) {
-      this.index = index;
-      this.element = event.target;
-      this.element.style.position = "absolute";
-      this.element.style.cursor = "grab";
-      this.element.onmousedown = this.dragMouseDown;
+      let newElement = {
+        index: index,
+        content: event.target,
+        positions: {
+          v1: 0,
+          v2: 0,
+          v3: 0,
+          v4: 0
+        }
+      };
+      this.elements.push(newElement);
+      this.setLastElement();
+      this.last.content.style.position = "absolute";
+      this.last.content.style.cursor = "grab";
+      this.last.content.onmousedown = this.dragMouseDown;
     },
     dragMouseDown(e) {
       e = e || window.event;
       e.preventDefault();
       // get the mouse cursor position at startup:
-      this.positions.v3 = e.clientX;
-      this.positions.v4 = e.clientY;
+      this.last.positions.v3 = e.clientX;
+      this.last.positions.v4 = e.clientY;
       document.onmouseup = this.closeDragElement;
       // call a function whenever the cursor moves:
       document.onmousemove = this.elementDrag;
@@ -62,31 +69,30 @@ export default {
       e = e || window.event;
       e.preventDefault();
       // calculate the new cursor position:
-      this.positions.v1 = this.positions.v3 - e.clientX;
-      this.positions.v2 = this.positions.v4 - e.clientY;
-      this.positions.v3 = e.clientX;
-      this.positions.v4 = e.clientY;
+      this.last.positions.v1 = this.last.positions.v3 - e.clientX;
+      this.last.positions.v2 = this.last.positions.v4 - e.clientY;
+      this.last.positions.v3 = e.clientX;
+      this.last.positions.v4 = e.clientY;
       // set the element's new position:
-      this.element.style.cursor = "grabbing";
-      this.element.style.top =
-        this.element.offsetTop - this.positions.v2 + "px";
-      this.element.style.left =
-        this.element.offsetLeft - this.positions.v1 + "px";
-      console.log(this.element.style.top);
+      this.last.content.style.cursor = "grabbing";
+      this.last.content.style.top =
+        this.last.content.offsetTop - this.last.positions.v2 + "px";
+      this.last.content.style.left =
+        this.last.content.offsetLeft - this.last.positions.v1 + "px";
       if (
-        parseInt(this.element.style.left, 10) < -10 ||
-        parseInt(this.element.style.left, 10) > 600 ||
-        (parseInt(this.element.style.top, 10) < -10 ||
-          parseInt(this.element.style.top, 10) > 600)
+        parseInt(this.last.content.style.left, 10) < -10 ||
+        parseInt(this.last.content.style.left, 10) > 600 ||
+        (parseInt(this.last.content.style.top, 10) < -10 ||
+          parseInt(this.last.content.style.top, 10) > 600)
       ) {
-        this.removeFromCanvas(this.index);
+        this.removeFromCanvas(this.last.index);
       }
     },
     closeDragElement() {
       // stop moving when mouse button is released:
       document.onmouseup = null;
       document.onmousemove = null;
-      this.element.style.cursor = "grab";
+      this.last.content.style.cursor = "grab";
     }
   }
 };
