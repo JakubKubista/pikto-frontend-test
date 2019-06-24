@@ -14,7 +14,7 @@ export default new Vuex.Store({
      * @param {any} state
      * @param {array} images
      */
-    updateImages ({
+    updateImages({
       commit
     }, images) {
       commit('updateImages', images)
@@ -24,7 +24,7 @@ export default new Vuex.Store({
      * @param {any} state
      * @param {object} element
      */
-    addToCanvas ({
+    addToCanvas({
       commit
     }, element) {
       commit('addToCanvas', element)
@@ -32,9 +32,19 @@ export default new Vuex.Store({
     /**
      * Send async canvas to mutation.
      * @param {any} state
+     * @param {object} content
+     */
+    setCanvasElementContent({
+      commit
+    }, content) {
+      commit('setCanvasElementContent', content)
+    },
+    /**
+     * Send async canvas to mutation.
+     * @param {any} state
      * @param {number} index
      */
-    removeFromCanvas ({
+    removeFromCanvas({
       commit
     }, index) {
       commit('removeFromCanvas', index)
@@ -46,7 +56,7 @@ export default new Vuex.Store({
      * @param {any} state
      * @param {array} images
      */
-    updateImages (state, images) {
+    updateImages(state, images) {
       state.images = [...images]
     },
     /**
@@ -54,18 +64,27 @@ export default new Vuex.Store({
      * @param {any} state
      * @param {object} element
      */
-    addToCanvas (state, element) {
+    addToCanvas(state, element) {
       state.canvas.push({
         index: element.index,
-        content: element.content
+        text: element.text,
+        src: element.src,
+        positions: element.positions
       })
+    },
+    /**
+     * @param {any} state
+     * @param {object} content
+     */
+    setCanvasElementContent(state, content) {
+      state.canvas[state.canvas.length - 1].content = content;
     },
     /**
      * Remove element from canvas store.
      * @param {any} state
      * @param {number} index
      */
-    removeFromCanvas (state, index) {
+    removeFromCanvas(state, index) {
       state.canvas = state.canvas.filter(item => item.index !== index)
     }
   }

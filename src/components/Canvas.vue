@@ -1,16 +1,17 @@
 <template>
   <div class="canvas col-md-auto">
     <div class="block">
+      {{canvas}}
       <div class="row">
         <div v-for="(element, index) in canvas"
              :key="index"
              @mouseover="dragElement(element.index, $event)"
              class="grab">
           <img v-if="element.index > -1"
-               :src="element.content" />
+               :src="element.src" />
           <div v-else>
             <h4 class="noselect">
-              {{ element.content }}
+              {{ element.text }}
             </h4>
           </div>
         </div>
@@ -26,31 +27,20 @@ export default {
   name: "Canvas",
   data() {
     return {
-      last: null,
-      elements: []
+      last: null
     };
   },
   computed: {
     ...mapState(["canvas"])
   },
   methods: {
-    ...mapActions(["removeFromCanvas"]),
+    ...mapActions(["removeFromCanvas", "setCanvasElementContent"]),
     setLastElement() {
-      this.last = this.elements[this.elements.length - 1];
+      this.last = this.canvas[this.canvas.length - 1];
     },
     dragElement(index, event) {
-      let newElement = {
-        index: index,
-        content: event.target,
-        positions: {
-          v1: 0,
-          v2: 0,
-          v3: 0,
-          v4: 0
-        }
-      };
-      this.elements.push(newElement);
       this.setLastElement();
+      this.setCanvasElementContent(event.target);
       this.last.content.style.position = "absolute";
       this.last.content.style.cursor = "grab";
       this.last.content.onmousedown = this.dragMouseDown;

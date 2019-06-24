@@ -18,7 +18,7 @@
         <h4>Text</h4>
         <button id="addText"
                 class="btn btn-primary"
-                @click="addTextToCanvas()">Add Text</button>
+                @click="addTextToCanvas">Add Text</button>
       </div>
       <div class="image">
         <h4>Images</h4>
@@ -26,7 +26,7 @@
           <li v-for="(image, index) in images"
               :key="index"
               class="pointer"
-              @click="addImageToCanvas(index, $event)">
+              @click="addImageToCanvas">
             <img :src="image"
                  class="img-rounded" />
           </li>
@@ -40,13 +40,15 @@
 import { mapState, mapActions } from "vuex";
 
 import Api from "@/config/api";
+import Canvas from "@/constants/canvas";
 
 export default {
   name: "SidePane",
   data() {
     return {
       file: null,
-      textIndex: -1
+      indexText: -1,
+      indexImage: 0
     };
   },
   computed: {
@@ -74,12 +76,21 @@ export default {
       }
     },
     addTextToCanvas() {
-      let content = prompt("Please add text", "Example");
-      this.addToCanvas({ index: this.textIndex, content });
-      this.textIndex--;
+      let text = prompt("Please add text", "Example");
+      this.addToCanvas({
+        index: this.indexText,
+        text,
+        positions: Canvas.positions
+      });
+      this.indexText--;
     },
-    addImageToCanvas(index, event) {
-      this.addToCanvas({ index, content: event.target.src });
+    addImageToCanvas(event) {
+      this.addToCanvas({
+        index: this.indexImage,
+        src: event.target.src,
+        positions: Canvas.positions
+      });
+      this.indexImage++;
     }
   },
   mounted() {
