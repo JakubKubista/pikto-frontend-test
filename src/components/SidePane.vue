@@ -63,13 +63,15 @@ export default {
       this.file = event.target.files[0];
     },
     uploadFile() {
-      Api.callService({
-        method: "post",
-        service: "uploads",
-        file: this.file
-      }).then(response => {
-        this.getImages();
-      });
+      if (this.file) {
+        Api.callService({
+          method: "post",
+          service: "uploads",
+          file: this.file
+        }).then(response => {
+          this.getImages();
+        });
+      }
     },
     addTextToCanvas() {
       let content = prompt("Please add text", "Example");
